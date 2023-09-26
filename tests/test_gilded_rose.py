@@ -1,13 +1,17 @@
 import pytest
+from hypothesis import given
+from hypothesis.strategies import text
+
 
 from ..gilded_rose import Item, GildedRose
 
 
-def test_no_name_change():
-    items = [Item("foo", 0, 0)]
+@given(text())
+def test_no_name_change(sample_name):
+    items = [Item(sample_name, 0, 0)]
     gilded_rose = GildedRose(items)
     gilded_rose.update_quality()
-    assert "foo" == items[0].name
+    assert sample_name == items[0].name
 
 
 def test_quality_decreases_default():
