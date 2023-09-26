@@ -48,12 +48,11 @@ class GildedRose(object):
                         increase_quality(item)
 
             if item.sell_in < 0:
+                if item.name == Articles.BACKSTAGE_PASS:
+                    item.quality = 0
                 if item.name != Articles.AGED_BRIE:
-                    if item.name != Articles.BACKSTAGE_PASS:
-                        if item.name != Articles.SULFURAS:
-                            decrease_quality(item)
-                    else:
-                        item.quality = 0
+                    if item.name != Articles.SULFURAS:
+                        decrease_quality(item)
+
                 else:
-                    if item.quality < 50:
-                        increase_quality(item)
+                    increase_quality(item)
