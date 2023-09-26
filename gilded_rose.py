@@ -19,12 +19,12 @@ class Item:
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
 
-def increase_quality(item: Item) -> None:
-    pass
+def increase_quality(item: Item, amount: int = 1, max_value=50) -> None:
+    item.quality = min(item.quality + amount, 50)
 
 
-def decrease_quality(item: Item) -> None:
-    pass
+def decrease_quality(item: Item, amount: int = 1) -> None:
+    item.quality = max(item.quality - amount, 0)
 
 
 class GildedRose(object):
@@ -36,17 +36,14 @@ class GildedRose(object):
             if item.name != Articles.AGED_BRIE and item.name != Articles.BACKSTAGE_PASS:
                 if item.quality > 0:
                     if item.name != Articles.SULFURAS:
-                        item.quality = item.quality - 1
+                        decrease_quality(item)
             else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.name == Articles.BACKSTAGE_PASS:
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
+                increase_quality(item)
+                if item.name == Articles.BACKSTAGE_PASS:
+                    if item.sell_in < 11:
+                        increase_quality(item)
+                    if item.sell_in < 6:
+                        increase_quality(item)
             if item.name != Articles.SULFURAS:
                 item.sell_in = item.sell_in - 1
             if item.sell_in < 0:
@@ -54,9 +51,9 @@ class GildedRose(object):
                     if item.name != Articles.BACKSTAGE_PASS:
                         if item.quality > 0:
                             if item.name != Articles.SULFURAS:
-                                item.quality = item.quality - 1
+                                decrease_quality(item)
                     else:
-                        item.quality = item.quality - item.quality
+                        item.quality = 0
                 else:
                     if item.quality < 50:
-                        item.quality = item.quality + 1
+                        increase_quality(item)
