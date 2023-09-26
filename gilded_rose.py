@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from enum import StrEnum, auto
+
+
+class Articles(StrEnum):
+    AGED_BRIE = "Aged Brie"
+    BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert"
+    SULFURAS = "Sulfuras, Hand of Ragnaros"
+
 
 class GildedRose(object):
     def __init__(self, items):
@@ -8,7 +16,7 @@ class GildedRose(object):
     def update_quality(self):
         for item in self.items:
             if (
-                item.name != "Aged Brie"
+                item.name != Articles.AGED_BRIE
                 and item.name != "Backstage passes to a TAFKAL80ETC concert"
             ):
                 if item.quality > 0:
