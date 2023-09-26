@@ -27,33 +27,45 @@ def decrease_quality(item: Item, amount: int = 1) -> None:
     item.quality = max(item.quality - amount, 0)
 
 
+def update__default(item: Item) -> None:
+    item.sell_in = item.sell_in - 1
+    decrease_quality(item)
+    if item.sell_in < 0:
+        decrease_quality(item)
+
+
+def update_brie(item: Item) -> None:
+    item.sell_in = item.sell_in - 1
+    increase_quality(item)
+
+
+def update_backstage(item: Item) -> None:
+    item.sell_in = item.sell_in - 1
+    increase_quality(item)
+    if item.sell_in < 10:
+        increase_quality(item)
+    if item.sell_in < 5:
+        increase_quality(item)
+    if item.sell_in < 0:
+        item.quality = 0
+
+
+def update_sulfuras(item: Item) -> None:
+    pass
+
+
+update_functions = {
+    Articles.AGED_BRIE: update_brie,
+    Articles.SULFURAS: update_sulfuras,
+    Articles.BACKSTAGE_PASS: update_backstage,
+}
+
+
 class GildedRose(object):
     def __init__(self, items):
         self.items = items
 
     def update_quality(self):
         for item in self.items:
-            if item.name == Articles.SULFURAS:
-                continue
-
-            item.sell_in = item.sell_in - 1
-
-            if item.name == Articles.AGED_BRIE:
-                increase_quality(item)
-            elif item.name == Articles.BACKSTAGE_PASS:
-                increase_quality(item)
-                if item.name == Articles.BACKSTAGE_PASS:
-                    if item.sell_in < 10:
-                        increase_quality(item)
-                    if item.sell_in < 5:
-                        increase_quality(item)
-            else:
-                decrease_quality(item)
-
-            if item.sell_in < 0:
-                if item.name == Articles.AGED_BRIE:
-                    continue
-                if item.name == Articles.BACKSTAGE_PASS:
-                    item.quality = 0
-                else:
-                    decrease_quality(item)
+            update_func = update_functions.get(item.name, update__default)
+            update_func(item)
