@@ -37,9 +37,8 @@ class GildedRose(object):
                 item.sell_in = item.sell_in - 1
 
             if item.name != Articles.AGED_BRIE and item.name != Articles.BACKSTAGE_PASS:
-                if item.quality > 0:
-                    if item.name != Articles.SULFURAS:
-                        decrease_quality(item)
+                if item.name != Articles.SULFURAS:
+                    decrease_quality(item)
             else:
                 increase_quality(item)
                 if item.name == Articles.BACKSTAGE_PASS:
@@ -51,9 +50,8 @@ class GildedRose(object):
             if item.sell_in < 0:
                 if item.name != Articles.AGED_BRIE:
                     if item.name != Articles.BACKSTAGE_PASS:
-                        if item.quality > 0:
-                            if item.name != Articles.SULFURAS:
-                                decrease_quality(item)
+                        if item.name != Articles.SULFURAS:
+                            decrease_quality(item)
                     else:
                         item.quality = 0
                 else:
