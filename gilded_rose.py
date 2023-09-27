@@ -52,6 +52,7 @@ def update_backstage(item: Item) -> None:
 
 
 def update_conjured(item) -> None:
+    item.sell_in = item.sell_in - 1
     if item.sell_in < 0:
         decrease_quality(item, amount=4)
     else:
