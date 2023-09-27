@@ -7,6 +7,7 @@ class Articles(StrEnum):
     AGED_BRIE = "Aged Brie"
     BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert"
     SULFURAS = "Sulfuras, Hand of Ragnaros"
+    CONJURED = "Conjured Mana Cake"
 
 
 class Item:
@@ -50,6 +51,13 @@ def update_backstage(item: Item) -> None:
         item.quality = 0
 
 
+def update_conjured(item) -> None:
+    if item.sell_in < 0:
+        decrease_quality(item, amount=4)
+    else:
+        decrease_quality(item, amount=2)
+
+
 def update_sulfuras(item: Item) -> None:
     pass
 
@@ -58,6 +66,7 @@ update_functions = {
     Articles.AGED_BRIE: update_brie,
     Articles.SULFURAS: update_sulfuras,
     Articles.BACKSTAGE_PASS: update_backstage,
+    Articles.CONJURED: update_conjured,
 }
 
 
